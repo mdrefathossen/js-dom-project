@@ -4,6 +4,7 @@
 * Also display the hex  code to a disabled input field 
 * add a button to copy color code
 * add a toast message when copyed
+* user can type their own hex code too
 */
 
 // steps
@@ -37,8 +38,18 @@ function main() {
             div = null
         }
 
-        generateToastMessage(`${output.value} copied`)
+        if(isValidHex(output.value)){
+            generateToastMessage(`${output.value} copied`)
+        } else{
+            alert("invalid color code")
+        }
     });
+    output.addEventListener('keyup',function  (e) {
+        const color = e.target.value;
+        if(color && isValidHex(color)){
+            root.style.backgroundColor = color;
+        }
+    })
 
 }
 
@@ -70,6 +81,20 @@ function generateToastMessage(msg){
 
     document.body.appendChild(div);
 }
+/**
+ * 
+ * @param {string} color 
+ */
+
+function isValidHex(color){
+    if(color.length != 7) return false;
+    if(color[0] != '#') return false;
+
+    color = color.substring(1)
+
+    return /^[0-9A-Fa-f]{6}$/i.test(color)
+
+}
 
 // step 3: collect all necessary references
 
@@ -78,3 +103,7 @@ function generateToastMessage(msg){
 // step 6 : active toast message
 // step 7 : create dynamic toast  message
 // step 8 : clear toast message
+// step 9 : create isHexvalid function
+// step 10 : implement change handler on input field
+// step 11 : prevent copying hex code if it is not valid 
+// step 12 : 
